@@ -21,6 +21,8 @@ jobs:
         with:
           python-version: 3.x
       - name: arch(1)
+        env:
+          ARCHPREFERENCE: ${{ matrix.archname }}
         run: |
           echo "#!/usr/bin/env python
           
@@ -32,4 +34,4 @@ jobs:
           chmod +x script
           ./script
           echo "==="
-          arch -arch ${{ matrix.archname }} ./script
+          arch ./script
