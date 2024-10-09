@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        archname: [x86_64, arm64]
+        archname: [x86_64, aarch64]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -22,7 +22,7 @@ jobs:
           python-version: 3.x
       - name: arch(1)
         env:
-          ARCHPREFERENCE: ${{ matrix.archname }}
+          ARCHPREFERENCE: ${{ matrix.archname == 'aarch64' && 'arm64' || matrix.archname }}
         run: |
           echo "#!/usr/bin/env python
           
