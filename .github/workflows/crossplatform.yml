@@ -25,4 +25,5 @@ jobs:
           echo "#!/usr/bin/env python\n\nimport platform\nprint(platform.processor)" > script
           chmod +x script
           ./script
+          echo
           arch -arch ${{ matrix.archname }} script
