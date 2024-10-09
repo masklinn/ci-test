@@ -21,4 +21,10 @@ jobs:
         with:
           python-version: 3.x
           architecture: ${{ matrix.arch }}
-      - run: python -c "import platform; print(platform.platform())"
+      - shell: python
+        run: |
+          import platform, sysconfig, pprint
+          print("uname", *platform.uname())
+          print("architecture", *platform.architecture())
+          print("processor", platform.processor())
+          pprint.pprint(sysconfig.get_config_vars())
