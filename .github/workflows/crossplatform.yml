@@ -22,7 +22,11 @@ jobs:
           python-version: 3.x
       - name: arch(1)
         run: |
-          echo "#!/usr/bin/env python\n\nimport platform\nprint(platform.processor)" > script
+          echo "#!/usr/bin/env python
+          
+          import platform
+          print(platform.processor)
+          " > script
           chmod +x script
           ./script
           echo
