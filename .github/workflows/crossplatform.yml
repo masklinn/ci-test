@@ -20,31 +20,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - name: arch(1) (setup)
+      - name: arch(1)
         run: |
-          arch -arch ${{ matrix.archname }} python -m venv .venv
-          source .venv/bin/activate
-          python -c '
-          import platform, pprint
-          print("uname", *platform.uname())
-          print("architecture", *platform.architecture())
-          print("processor", platform.processor())
-          '
-      - name: arch(1) (run)
-        run: |
-          arch -arch ${{ matrix.archname }} python -c '
-          import platform, pprint
-          print("uname", *platform.uname())
-          print("architecture", *platform.architecture())
-          print("processor", platform.processor())
-          '
-      - name: archpreference
-        env:
-          ARCHPREFERENCE: ${{ matrix.archname }}
-        run: |
-          python -c '
-          import platform, pprint
-          print("uname", *platform.uname())
-          print("architecture", *platform.architecture())
-          print("processor", platform.processor())
-          '
+          echo "#!/usr/bin/env python\n\nimport platform\nprint(platform.processor)" > script
+          chmod +x script
+          ./script
+          arch -arch ${{ matrix.archname }} script
