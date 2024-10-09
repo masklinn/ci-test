@@ -25,9 +25,11 @@ jobs:
           echo "#!/usr/bin/env python
           
           import platform
-          print(platform.processor)
+          print(platform.processor())
           " > script
+          cat script
+          echo "==="
           chmod +x script
           ./script
-          echo
+          echo "==="
           arch -arch ${{ matrix.archname }} script
