@@ -32,4 +32,4 @@ jobs:
           chmod +x script
           ./script
           echo "==="
-          arch -arch ${{ matrix.archname }} script
+          arch -arch ${{ matrix.archname }} ./script
