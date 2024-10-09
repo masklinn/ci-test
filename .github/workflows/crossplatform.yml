@@ -1,0 +1,24 @@
+name: crossplatform
+
+# Controls when the workflow will run
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  check-cross:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        arch: [x86_64, aarch64]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+          architecture: ${{ matrix.arch }}
+      - run: python -c "import platform; print(platform.platform())"
