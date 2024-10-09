@@ -14,6 +14,11 @@ jobs:
     strategy:
       matrix:
         arch: [x64, arm64]
+        include:
+          - arch: x64
+            archname: x86_64
+          - arch: arm64
+            archname: arm64
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -22,10 +27,18 @@ jobs:
           python-version: 3.x
           architecture: ${{ matrix.arch }}
       - run: |
-          arch -x86_64 python -c '
-          import platform, sysconfig, pprint
+          arch -arch ${{ matrix.archname }} python -m venv .venv
+          source .venv/bin/activate
+          python -c '
+          import platform, pprint
           print("uname", *platform.uname())
           print("architecture", *platform.architecture())
           print("processor", platform.processor())
-          pprint.pprint(sysconfig.get_config_vars())
+          '
+          echo "---"
+          arch -arch ${{ matrix.archname }} -c '
+          import platform, pprint
+          print("uname", *platform.uname())
+          print("architecture", *platform.architecture())
+          print("processor", platform.processor())
           '
