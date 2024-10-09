@@ -21,10 +21,11 @@ jobs:
         with:
           python-version: 3.x
           architecture: ${{ matrix.arch }}
-      - shell: python
-        run: |
+      - run: |
+          arch -x86_64 python -c '
           import platform, sysconfig, pprint
           print("uname", *platform.uname())
           print("architecture", *platform.architecture())
           print("processor", platform.processor())
           pprint.pprint(sysconfig.get_config_vars())
+          '
