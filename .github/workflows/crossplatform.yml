@@ -24,8 +24,8 @@ jobs:
     steps:
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ python-version }}
-          architecture: ${{ archname }}
+          python-version: ${{ matrix.python-version }}
+          architecture: ${{ matrix.archname }}
       - name: arch(1)
         env:
           ARCHPREFERENCE: ${{ matrix.archname == 'aarch64' && 'arm64' || matrix.archname }}
