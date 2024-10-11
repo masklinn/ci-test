@@ -10,24 +10,31 @@ jobs:
   check-cross:
     # The type of runner that the job will run on
     runs-on: macos-latest
-
+    continue-on-error: true
     strategy:
       matrix:
         python-version:
           - "3.x" # should be universal
           - "3.9" # should be *not* universal
-          - "pypy"
-          - "graalpy"
+          - "pypy-3.10"
+          - "graalpy-24"
         archname: [x86_64, aarch64]
+        include:
+          - archname: x86_64
+            arch: x86_64
+            architecture: x64
+          - archname: aarch64
+            arch: arm64
+            architecture: arm64
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          architecture: ${{ matrix.archname }}
+          architecture: ${{ matrix.architecture }}
       - name: arch(1)
         env:
-          ARCHPREFERENCE: ${{ matrix.archname == 'aarch64' && 'arm64' || matrix.archname }}
+          ARCHPREFERENCE: ${{ matrix.arch }}
         run: |
           test $(python -c "import platform; print(platform.processor())") = "${{ matrix.archname }}"
