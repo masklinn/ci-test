@@ -11,10 +11,11 @@ jobs:
     # The type of runner that the job will run on
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version:
           - "3.x" # should be universal
-          - "3.9" # should be *not* universal
+          - "3.10" # should be *not* universal
           - "pypy-3.10"
           - "graalpy-24"
         archname: [x86_64, aarch64]
@@ -22,9 +23,11 @@ jobs:
           - archname: x86_64
             arch: x86_64
             architecture: x64
+            processor: i386
           - archname: aarch64
             arch: arm64
             architecture: arm64
+            processor: arm
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -36,4 +39,6 @@ jobs:
         env:
           ARCHPREFERENCE: ${{ matrix.arch }}
         run: |
-          arch python -c "import platform; print(platform.processor())"
+          proc=$(arch python -c "import platform; print(platform.processor())")
+          echo $proc
+          test $proc = ${{ matrix.processor }}
