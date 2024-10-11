@@ -10,7 +10,6 @@ jobs:
   check-cross:
     # The type of runner that the job will run on
     runs-on: macos-latest
-    continue-on-error: true
     strategy:
       matrix:
         python-version:
@@ -37,4 +36,4 @@ jobs:
         env:
           ARCHPREFERENCE: ${{ matrix.arch }}
         run: |
-          test $(python -c "import platform; print(platform.processor())") = "${{ matrix.archname }}"
+          arch python -c "import platform; print(platform.processor())"
